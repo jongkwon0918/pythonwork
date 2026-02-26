@@ -72,3 +72,19 @@ READ=0b100
 WRITE=0b010
 EXEC=0b001
 user_auth=READ|WRITE
+print(user_auth & READ > 0) #읽기 권한확인
+print(user_auth & EXEC > 0) #실행 권한확인
+print(user_auth & WRITE > 0) #쓰기 권한확인
+
+#3.8이상 버전에서 사용할 수 있는 연산자
+#위루스연산자(코끼리) 연산자 :=
+#조건문 변수에 값을 저장하고 그 결과로 조건문을 처리할 수 있게 해주는 연산자
+# 예) (변수:=대입될 값) 비교연산자
+result="길이가 길다" if (length := len("안녕하세요")) > 5 else "길이가 짧다"
+print(result)
+print(length)   
+
+print("나이 : ",end="")
+result="성인" if(age:=int(input()))>19 else "미성년"
+print(result)
+print(age)
