@@ -273,3 +273,77 @@ def delete_data(id) :
 USER_SESSION_ROLE="admin"
 delete_data(10)
 
+# 람다표현식 활용하기
+# 표현방식
+# lambda [매개변수] : 반환값
+
+# 익명함수
+lambda1=lambda : "매개변수 없는 고정값을 반환하는 함수"
+print(lambda1())
+
+# 매개변수 있는 함수 선언하기
+lambda2=lambda name : f"{name}님 환영합니다"
+print(lambda2("신입생"))
+
+#매개변수가 다수인 함수를 선언
+lambda3=lambda x,y,z : x+y+z
+print(lambda3(1,2,3))
+
+#람다표현식은 주로 다른 함수의 인자로 함수를 전달할 때 사용
+#특히 파이선이 제공하는 sort()/sorted(),map(),filter(),reduce()
+
+#map() : 리스트나 튜플에 저장된 값을 변경하여 새로운 리스트를 만들때 사용하는 함수
+#타입변경, 값 자체를 변경
+#map(함수->def (a):return 값,반복할 리스트|튜플)
+list_data=[1,2,3,4,5]
+result=map(lambda e : e**2, list_data)
+for v in result :
+    print(v,end="")
+# print()
+print(tuple(result))
+
+#map함수의 두번째 이상 매개변수는 가변으로 전달받음
+price=[100,200,300,400]
+stock=[5,2,1,6]
+
+result=map(lambda p,s : p*s,price,stock)
+print(tuple(result))
+
+# 컴프리핸션을 이용하기
+result=[x**2 for x in list_data]
+print(result)
+
+# zip()함수를 이용하기
+# 두개의 리스트/튜플을 한개의 리스트로 합쳐줌
+result=zip(price,stock)
+print(list(result))
+result=[x*y for x,y in zip(price,stock)]
+print(result)
+
+# 문자열 -> 태그방식으로 변환해주기
+# li태그로 만들기
+names=["짱구","뽀로로","도라에몽","헬로키티","마이멜로디","호빵맨","시나모롤"]
+
+list1=map(lambda n : f"<li>{n}</li>",names)
+list2=[f"<li>{n}</li>" for n in names]
+result=zip(list1,list2)
+
+# filter함수
+result=filter(lambda x : len(x)>=4,names)
+print(tuple(result))
+
+result=[n for n in names if len(n)>=4]
+print(result)
+
+list1=[1,2,3]
+list2=[0.2,0.3]
+result=zip(list1,list2)
+print(tuple(result))
+
+
+print(tuple(zip(list1,price,stock)))
+
+# 행렬 전치할때 사용이 가능
+matrix=[[2,4,6],[1,3,5]]
+print(f"전치결과 : {list(zip(*matrix))}")
+
