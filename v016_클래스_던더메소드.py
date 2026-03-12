@@ -46,7 +46,11 @@ class MagicMethodTest :
 
     # 비교연산
     # __eq__, __lt__ (<), __gt__ (>)  
-
+    def __hash__(self) : 
+        return hash((self.name,self.price))
+    def __eq__(self,other) : 
+        return self.name==other.name and self.price==other.price
+    
 p=MagicMethodTest("핸드폰",1200000)
 print(p)
 p1=MagicMethodTest("닌텐도",800000)
@@ -54,6 +58,13 @@ result=p+p1 # p.__add__(p1)
 print(result)
 result=result-p1
 print(result)
+p2=MagicMethodTest("핸드폰",1200000)
+p3=MagicMethodTest("핸드폰",1200000)
+# product_set=set([p,p1,p2,p3])
+product_set={p,p1,p2,p3}
+print("=============")
+print(product_set)
+print("=============")
 
 class Order : 
     def __init__(self,carts:list=[]) : 
@@ -79,6 +90,7 @@ class Order :
 
     def __str__(self) : 
         return f"{self.carts}" 
+    
 order=Order(["핸드폰","닌텐도","김밥"])
 print(order)
 order[-1]="감자"
@@ -90,3 +102,55 @@ print("재미니" in order)
 
 for o in order : 
     print(o)
+
+# __enter__, __exit__ 메소드
+# with예약어를 이용할 때 사용되는 메소드들
+# with 클래스생성 as 별칭 : 
+#   실행 코드 작성
+import time
+class SimpleTest : 
+    def __init__(self,title) : 
+        self.title=title
+
+    def __enter__(self) : 
+        print("== 작업 시작 ==")
+        self.start=time.time()
+        return self
+    
+    def __exit__(self, exc_type,exc_value,traceback) : 
+        print("== 작업 종료 ==")
+        duration=time.time()-self.start
+        print(f"작업 소요시간 : {duration}")
+        if exc_type : 
+            print(f"에러타입 : {exc_type}")
+            print(f"에러내용 : {exc_value}")
+            print(traceback)
+    def test_method(self,data) : 
+        if len(data)<=2 : 
+            raise BaseException("에러 발생")
+        self.title=data
+try : 
+    with SimpleTest("클래스 사용") as st : 
+        time.sleep(0.5)
+        # st.test_method("정상처리"
+        st.test_method("안")
+except BaseException as e :
+    print(f"에러 발생!!! : {e}") 
+
+# __call__함수
+# 생성된 객체를 함수처럼 호추하게 해주는 기능
+
+class ModelTest : 
+    def __init__(self, weight,bias) : 
+        self.weight=weight
+        self.bias=bias
+
+    def __call__(self, x) : 
+        print(f"입력값 : {x} -> ",end=" ")
+        prediction=(self.weight*x)+self.bias
+        print(f"예측 : {prediction}")
+        return prediction
+    
+linear_model=ModelTest(weight=3, bias=2)
+pred=linear_model(20)
+print(pred)
