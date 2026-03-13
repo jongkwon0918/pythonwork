@@ -202,4 +202,3 @@ class LinearRegression(MLModel) :
     def predict(self, x):
         return (self.weight*x)+self.bias
     
-    
